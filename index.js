@@ -1,61 +1,50 @@
-function generatePassword(length, includeLowercase, includeUppercase, includeNumbers, includeSpecialCharacters) {
-    // Define possible character sets
-    const lowercase = "abcdefghijklmnopqrstuvwxyz";
-    const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numbers = "0123456789";
-    const specialCharacters = "!@#$%^&*()_+[]{}|;:,.<>?";
-    
-    let availableCharacters = "";
-    let password = "";
+function password_Generator(length, inclowercase, incuppercase, incnumber, incspecialcharacter){
+let pass=''
+let empty=''
+const Lcase='abcdefghijklmnopqrstuvwxyz'
+const Ucase='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const num="0123456789"
+const spec="!@#$%^&*()<>?:{}|~,.;'[]/"
 
-    // Build the pool of characters based on the user selection
-    if (includeLowercase) availableCharacters += lowercase;
-    if (includeUppercase) availableCharacters += uppercase;
-    if (includeNumbers) availableCharacters += numbers;
-    if (includeSpecialCharacters) availableCharacters += specialCharacters;
-
-    // Check for invalid inputs
-    if (length <= 0) {
-        return "The input length must be a positive number.";
-    }
-    if (availableCharacters === "") {
-        return "Please select at least one character type.";
-    }
-
-    // Generate the password
-    for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * availableCharacters.length);
-        password += availableCharacters[randomIndex];
-    }
-
-    return password;
+if(inclowercase){
+    empty +=Lcase
+}
+if(incuppercase){
+    empty+=Ucase
+}
+if(incnumber){
+    empty+=num
+}
+if(incspecialcharacter){
+    empty+=spec
+}
+if(length <= 0){
+    return "Enter a positive input"
+}
+if(empty === ""){
+return "Please select a checkbox"
 }
 
-// Fetch DOM elements
-const lengthInput = document.getElementById("length");
-const includeLowercaseCheckbox = document.getElementById("includeLowerCase");
-const includeUppercaseCheckbox = document.getElementById("includeUpperCase");
-const includeNumbersCheckbox = document.getElementById("includeNumbers");
-const includeSpecialCharactersCheckbox = document.getElementById("includeSpecialCharacters");
-const resultElement = document.getElementById("result");
+for(let i=0; i < length ;i++){
+    const randomindex=Math.floor(Math.random()*empty.length)
+    pass +=empty[randomindex]
+}
+return pass
+}
 
-// Add event listener to the button
-document.getElementById("submit").addEventListener("click", () => {
-    const length = parseInt(lengthInput.value);
-    const includeLowercase = includeLowercaseCheckbox.checked;
-    const includeUppercase = includeUppercaseCheckbox.checked;
-    const includeNumbers = includeNumbersCheckbox.checked;
-    const includeSpecialCharacters = includeSpecialCharactersCheckbox.checked;
+let lowercase=document.getElementById("includeLowerCase")
+let uppercase=document.getElementById("includeUpperCase")
+let number=document.getElementById("includeNumbers")
+let specialcharacter=document.getElementById("includeSpecialCharacters")
+let result=document.getElementById("result")
 
-    // Generate the password
-    const password = generatePassword(
-        length,
-        includeLowercase,
-        includeUppercase,
-        includeNumbers,
-        includeSpecialCharacters
-    );
+document.getElementById("submit").addEventListener("click", () =>{
+const length=parseInt(document.getElementById("length").value)
+const inclowercase=lowercase.checked
+const incuppercase=uppercase.checked
+const incnumber=number.checked
+const incspecialcharacter=specialcharacter.checked
 
-    // Display the result
-    resultElement.textContent = password;
-});
+const password=password_Generator( length, inclowercase, incuppercase, incnumber, incspecialcharacter)
+result.textContent=`The generated password is: "${password}"`
+})
